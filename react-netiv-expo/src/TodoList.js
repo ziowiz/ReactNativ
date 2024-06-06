@@ -1,7 +1,13 @@
 //сделать компонент отображения списка задач  в реакт нетив
 
 import React, { Component, useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+	StyleSheet,
+	Text,
+	View,
+	TouchableOpacity,
+	ScrollView,
+} from "react-native";
 
 export const TodoList = (props) => {
 	const handleDone = (id) => {
@@ -13,40 +19,42 @@ export const TodoList = (props) => {
 		props.deleteTodo(id);
 	};
 	return (
-		<View style={styles.listContainer}>
+		<ScrollView style={styles.listContainer}>
 			{props.todo.map((item) => (
 				<View
 					key={item.id}
 					style={styles.listContainer2}
 				>
-					<Text style={styles.text}>
-						{item.todo} {item.done ? ": Done" : ""}
+					<Text style={item.done ? styles.textDone : styles.text}>
+						{item.todo}
 					</Text>
 					<View style={styles.listContainer3}>
 						<TouchableOpacity
 							style={styles.button}
 							onPress={() => handleDone(item.id)}
 						>
-							<Text style={styles.buttonText}>Done</Text>
+							<Text style={styles.buttonText}>
+								{!item.done ? "Готово" : "Вернуть"}
+							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={styles.button}
 							onPress={() => handleDelete(item.id)}
 						>
-							<Text style={styles.buttonText2}>Delete</Text>
+							<Text style={styles.buttonText2}>Удалить</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
 			))}
-		</View>
+		</ScrollView>
 	);
 };
 const styles = StyleSheet.create({
 	listContainer: {
 		flex: 1,
+		flexDirection: "column",
 		width: "100%",
-		alignItems: "flex-start",
-		justifyContent: "flex-start",
+
 		borderBottomColor: "#00ff00",
 		borderBottomWidth: 1,
 		marginTop: 40,
@@ -64,15 +72,28 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		color: "#ffffff",
-		fontSize: 15,
-		padding: 10,
+		fontSize: 18,
+		paddingLeft: 15,
+		paddingBottom: 10,
 		width: "60%",
 		textShadowColor: "#00ff00",
 		textShadowOffset: { width: 1, height: 1 },
 		textShadowRadius: 3,
 	},
+	textDone: {
+		color: "#504f4f",
+		fontStyle: "italic",
+		fontSize: 18,
+		paddingLeft: 25,
+		textDecorationLine: "line-through",
+		paddingBottom: 10,
+		width: "60%",
+		textShadowColor: "#153515",
+		textShadowOffset: { width: 1, height: 1 },
+		textShadowRadius: 3,
+	},
 	button: {
-		width: "auto", // Чтобы кнопки имели размер по содержимому
+		width: 75, // Чтобы кнопки имели размер по содержимому
 		height: 30,
 		marginRight: 10,
 		justifyContent: "center",
@@ -92,7 +113,7 @@ const styles = StyleSheet.create({
 		textShadowRadius: 1,
 	},
 	buttonText2: {
-		color: "#e0f446",
+		color: "#ddbc04",
 		fontSize: 13,
 		fontWeight: "600",
 		textShadowColor: "#e2ffd6",

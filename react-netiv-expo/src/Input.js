@@ -24,6 +24,8 @@ export const Input = (props) => {
 					value={inputValue}
 					placeholder={props.placeholder}
 					placeholderTextColor="#5f5f5f"
+					autoCorrect={false}
+					cursorColor="#00ff00"
 				/>
 				<TouchableOpacity
 					style={styles.button}
@@ -32,10 +34,17 @@ export const Input = (props) => {
 					<Text style={styles.buttonText}>Добавить</Text>
 				</TouchableOpacity>
 			</View>
+			{props.error ? <text style={styles.error}>{props.error}</text> : null}
 		</View>
 	);
 };
 const styles = StyleSheet.create({
+	error: {
+		fontSize: 20,
+		fontWeight: "bold",
+		color: "#c4c700",
+		marginVertical: 10,
+	},
 	button: {
 		width: "23%",
 		height: 50,
@@ -86,6 +95,6 @@ const styles = StyleSheet.create({
 		color: "#ffffff",
 		textShadowColor: "#e0ffd6",
 		textShadowOffset: { width: 1, height: 1 },
-		textShadowRadius: 3,
+		textShadowRadius: 1,
 	},
 });
