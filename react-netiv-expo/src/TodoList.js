@@ -7,46 +7,56 @@ import {
 	View,
 	TouchableOpacity,
 	ScrollView,
+	FlatList,
 } from "react-native";
 
 export const TodoList = (props) => {
 	const handleDone = (id) => {
-		// Логика для отметки задачи как выполненной
 		props.markDone(id);
 	};
 
 	const handleDelete = (id) => {
 		props.deleteTodo(id);
 	};
-	return (
-		<ScrollView style={styles.listContainer}>
-			{props.todo.map((item) => (
-				<View
-					key={item.id}
-					style={styles.listContainer2}
-				>
-					<Text style={item.done ? styles.textDone : styles.text}>
-						{item.todo}
-					</Text>
-					<View style={styles.listContainer3}>
-						<TouchableOpacity
-							style={styles.button}
-							onPress={() => handleDone(item.id)}
-						>
-							<Text style={styles.buttonText}>
-								{!item.done ? "Готово" : "Вернуть"}
-							</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={styles.button}
-							onPress={() => handleDelete(item.id)}
-						>
-							<Text style={styles.buttonText2}>Удалить</Text>
-						</TouchableOpacity>
-					</View>
+
+	const renderList = ({ item }) => {
+		return (
+			<View
+				key={item.id}
+				style={styles.listContainer2}
+			>
+				<Text style={item.done ? styles.textDone : styles.text}>
+					{item.todo}
+				</Text>
+				<View style={styles.listContainer3}>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => handleDone(item.id)}
+					>
+						<Text style={styles.buttonText}>
+							{!item.done ? "Готово" : "Вернуть"}
+						</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => handleDelete(item.id)}
+					>
+						<Text style={styles.buttonText2}>Удалить</Text>
+					</TouchableOpacity>
 				</View>
-			))}
-		</ScrollView>
+			</View>
+		);
+	};
+
+	return (
+		<View style={styles.listContainer}>
+			<FlatList
+				data={props.todo}
+				renderItem={renderList}
+				keyExtractor={(item) => item.id.toString()}
+				style={styles.listContainer}
+			/>
+		</View>
 	);
 };
 const styles = StyleSheet.create({
@@ -57,7 +67,7 @@ const styles = StyleSheet.create({
 
 		borderBottomColor: "#00ff00",
 		borderBottomWidth: 1,
-		marginTop: 40,
+		marginTop: 10,
 	},
 	listContainer2: {
 		flexDirection: "row",
