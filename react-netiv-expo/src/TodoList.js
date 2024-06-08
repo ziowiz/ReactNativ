@@ -11,6 +11,8 @@ import {
 } from "react-native";
 
 export const TodoList = (props) => {
+	const idtaska = props.test;
+	console.log(idtaska);
 	const handleDone = (id) => {
 		props.markDone(id);
 	};
@@ -25,9 +27,12 @@ export const TodoList = (props) => {
 				key={item.id}
 				style={styles.listContainer2}
 			>
-				<Text style={item.done ? styles.textDone : styles.text}>
-					{item.todo}
-				</Text>
+				<TouchableOpacity onPress={() => props.sendMessage(item.id, item.todo)}>
+					<Text style={item.done ? styles.textDone : styles.text}>
+						{item.todo}
+					</Text>
+				</TouchableOpacity>
+
 				<View style={styles.listContainer3}>
 					<TouchableOpacity
 						style={styles.button}
@@ -85,7 +90,7 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		paddingLeft: 15,
 		paddingBottom: 10,
-		width: "60%",
+		width: "100%",
 		textShadowColor: "#00ff00",
 		textShadowOffset: { width: 1, height: 1 },
 		textShadowRadius: 3,
@@ -97,7 +102,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 25,
 		textDecorationLine: "line-through",
 		paddingBottom: 10,
-		width: "60%",
+		width: "100%",
 		textShadowColor: "#153515",
 		textShadowOffset: { width: 1, height: 1 },
 		textShadowRadius: 3,
