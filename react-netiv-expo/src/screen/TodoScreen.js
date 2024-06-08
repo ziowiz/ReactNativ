@@ -4,13 +4,31 @@ import {
 	View,
 	Text,
 	TextInput,
+	Alert,
 	TouchableOpacity,
 } from "react-native";
 
 export const TodoScreen = ({ back, id, select, fuDeleteTodo }) => {
 	const deleteTodo = (id) => {
-		console.log(id + " find");
-		fuDeleteTodo(id);
+		Alert.alert(
+			"Подтвердите удаление",
+			"Вы уверены, что хотите удалить эту задачу?",
+			[
+				{
+					text: "Отмена",
+					onPress: () => console.log("Удаление отменено"),
+					style: "cancel",
+				},
+				{
+					text: "OK",
+					onPress: () => {
+						console.log(id + " find");
+						fuDeleteTodo(id);
+					},
+				},
+			],
+			{ cancelable: false }
+		);
 	};
 	return (
 		<View style={styles.container}>
@@ -84,23 +102,12 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		color: "#e0ffd6",
 		marginVertical: 10,
+		textAlign: "center",
 	},
-	input: {
-		fontSize: 16,
-		padding: 20,
-		paddingVertical: 5,
-		borderWidth: 1,
-		borderColor: "#013801",
-		borderRadius: 5,
-		width: "75%",
-		height: 50,
-		color: "#ffffff",
-		textShadowColor: "#e0ffd6",
-		textShadowOffset: { width: 1, height: 1 },
-		textShadowRadius: 1,
-	},
+
 	container: {
 		flex: 1,
 		backgroundColor: "rgb(15, 15, 15)",
+		padding: 15,
 	},
 });
