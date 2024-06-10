@@ -17,14 +17,13 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		borderBottomColor: "#00ff00",
 		borderBottomWidth: 1,
-
 	},
 	text: {
 		color: "#ffffff",
 		textAlign: "center",
 		fontSize: 25,
 		textShadowColor: "#00ff00",
-		textShadowOffset: { width: 1, height: 1 },
-		textShadowRadius: 3,
+		textShadowOffset: { width: 2, height: 2 },
+		textShadowRadius: 4,
 	},
 });

@@ -4,6 +4,7 @@ import {
 	View,
 	TouchableOpacity,
 	FlatList,
+	Image,
 } from "react-native";
 
 export const TodoList = (props) => {
@@ -49,21 +50,35 @@ export const TodoList = (props) => {
 
 	return (
 		<View style={styles.listContainer}>
-			<FlatList
-				data={props.todo}
-				renderItem={renderList}
-				keyExtractor={(item) => item.id.toString()}
-				style={styles.listContainer}
-			/>
+			{props.todo && props.todo.length > 0 ? (
+				<FlatList
+					data={props.todo}
+					renderItem={renderList}
+					keyExtractor={(item) => item.id.toString()}
+					style={styles.containerImg}
+				/>
+			) : (
+				<View style={styles.listContainer}>
+					<Text style={styles.text2}>Котику грустно. Добавьте задачу.</Text>
+					<Image
+						source={require("./img/cat.png")}
+						style={styles.image}
+					/>
+				</View>
+			)}
 		</View>
 	);
 };
 const styles = StyleSheet.create({
+	containerImg: {
+		flex: 1,
+
+		padding: 20,
+	},
 	listContainer: {
 		flex: 1,
 		flexDirection: "column",
 		width: "100%",
-
 		borderBottomColor: "#00ff00",
 		borderBottomWidth: 1,
 		marginTop: 10,
@@ -79,6 +94,12 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "flex-end", // Кнопки будут располагаться справа
 	},
+	image: {
+		marginH: "auto",
+		marginTop: "auto",
+		width: 400,
+		height: 500,
+	},
 	text: {
 		color: "#ffffff",
 		fontSize: 18,
@@ -88,6 +109,16 @@ const styles = StyleSheet.create({
 		textShadowColor: "#00ff00",
 		textShadowOffset: { width: 1, height: 1 },
 		textShadowRadius: 3,
+	},
+	text2: {
+		color: "#ffffff",
+		fontSize: 16,
+
+		width: "100%",
+		textShadowColor: "#00ff00",
+		textShadowOffset: { width: 1, height: 1 },
+		textShadowRadius: 3,
+		textAlign: "center",
 	},
 	textDone: {
 		color: "#504f4f",

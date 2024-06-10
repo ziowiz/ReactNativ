@@ -10,6 +10,14 @@ export default function App() {
 	const [selectId, setSelectId] = useState(null);
 	const [deleteTodo, setDeleteTodo] = useState(null);
 	const [linkTodo, setLinkTodo] = useState(null);
+	const fuRename = (idKey, newTodo) => {
+		console.log(idKey, newTodo);
+		setLinkTodo(
+			linkTodo.map((todo) =>
+				idKey === todo.id ? { ...todo, todo: newTodo } : todo
+			)
+		);
+	};
 	const receiveMessage = (id, todo) => {
 		setTodoId(id);
 		setSelectId(id);
@@ -35,6 +43,7 @@ export default function App() {
 						select={select}
 						id={selectId}
 						back={() => setTodoId(null)}
+						fuRename2={fuRename}
 					/>
 				) : (
 					<MainScreen

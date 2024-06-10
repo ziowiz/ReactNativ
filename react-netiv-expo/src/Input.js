@@ -40,6 +40,7 @@ export const Input = (props) => {
 };
 const styles = StyleSheet.create({
 	error: {
+		marginTop: 10,
 		fontSize: 20,
 		fontWeight: "bold",
 		color: "#c4c700",
@@ -51,8 +52,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "#013801",
-		borderColor: "#072b07",
-		borderWidth: 2,
+		borderColor: "#e0ffd6",
+		borderWidth: 1,
 		borderRadius: 8,
 		elevation: 2,
 	},
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
 		color: "#e0ffd6",
 		fontSize: 15,
 		fontWeight: "600",
-		textShadowColor: "#e0ffd6",
+		textShadowColor: "#3cb415",
 		textShadowRadius: 1,
 	},
 	container2: {

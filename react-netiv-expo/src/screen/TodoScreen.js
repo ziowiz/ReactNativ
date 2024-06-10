@@ -1,7 +1,18 @@
 import React from "react";
 import { StyleSheet, View, Text, Alert, TouchableOpacity } from "react-native";
-
-export const TodoScreen = ({ back, id, select, fuDeleteTodo }) => {
+import { useState } from "react";
+import { ModalView } from "./Modal";
+export const TodoScreen = ({ back, id, select, fuDeleteTodo, fuRename2 }) => {
+	const [modal, setModal] = useState(false);
+	const handleRename = (idKey, newTodo) => {
+		console.log(idKey + " idKey in TodoScreen");
+		console.log(newTodo + " newTodo in TodoScreen");
+		fuRename2(idKey, newTodo);
+		setModal(false);
+		setTimeout(() => {
+			back();
+		}, 0.5);
+	};
 	const deleteTodo = (id) => {
 		console.log("Удаление произошло");
 		Alert.alert(
@@ -24,12 +35,17 @@ export const TodoScreen = ({ back, id, select, fuDeleteTodo }) => {
 	};
 	return (
 		<View style={styles.container}>
-			<Text
-				style={styles.label}
-				key={id}
+			<ModalView
+				visible={modal}
+				onCancel={() => setModal(false)}
+				select={select}
+				idKey={id}
+				fuRename={handleRename}
 			>
-				{select}
-			</Text>
+				{" "}
+			</ModalView>
+
+			<Text style={styles.label}>{select}</Text>
 
 			<View style={styles.container3}>
 				<TouchableOpacity
@@ -39,6 +55,12 @@ export const TodoScreen = ({ back, id, select, fuDeleteTodo }) => {
 					<Text style={styles.buttonText}>Назад</Text>
 				</TouchableOpacity>
 
+				<TouchableOpacity
+					style={styles.button}
+					onPress={() => setModal(true)}
+				>
+					<Text style={styles.buttonText}>Редакт</Text>
+				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.button}
 					onPress={() => deleteTodo(id)}
