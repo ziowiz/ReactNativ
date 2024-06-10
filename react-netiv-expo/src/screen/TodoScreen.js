@@ -1,28 +1,20 @@
 import React from "react";
-import {
-	StyleSheet,
-	View,
-	Text,
-	TextInput,
-	Alert,
-	TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, Text, Alert, TouchableOpacity } from "react-native";
 
 export const TodoScreen = ({ back, id, select, fuDeleteTodo }) => {
 	const deleteTodo = (id) => {
+		console.log("Удаление произошло");
 		Alert.alert(
 			"Подтвердите удаление",
 			"Вы уверены, что хотите удалить эту задачу?",
 			[
 				{
 					text: "Отмена",
-					onPress: () => console.log("Удаление отменено"),
 					style: "cancel",
 				},
 				{
 					text: "OK",
 					onPress: () => {
-						console.log(id + " find");
 						fuDeleteTodo(id);
 					},
 				},

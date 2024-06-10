@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Keyboard } from "react-native";
-
 import { Input } from "../Input";
 import { TodoList } from "../TodoList";
 export const MainScreen = (props) => {
@@ -136,7 +135,6 @@ export const MainScreen = (props) => {
 
 	useEffect(() => {
 		if (props.deleteTodo) {
-			console.log(props.deleteTodo + "useEffect");
 			deleteTodo(props.deleteTodo);
 		}
 	}, [props.deleteTodo]);

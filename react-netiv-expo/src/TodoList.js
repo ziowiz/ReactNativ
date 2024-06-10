@@ -1,18 +1,12 @@
-//сделать компонент отображения списка задач  в реакт нетив
-
-import React, { Component, useState } from "react";
 import {
 	StyleSheet,
 	Text,
 	View,
 	TouchableOpacity,
-	ScrollView,
 	FlatList,
 } from "react-native";
 
 export const TodoList = (props) => {
-	const idtaska = props.test;
-	console.log(idtaska);
 	const handleDone = (id) => {
 		props.markDone(id);
 	};

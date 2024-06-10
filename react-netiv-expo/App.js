@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, StatusBar } from "react-native";
-import {
-	SafeAreaProvider,
-	SafeAreaView,
-	Alert,
-} from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { MainScreen } from "./src/screen/MainScreen";
 import { TodoScreen } from "./src/screen/TodoScreen";
-
 import { Navbar } from "./src/Navbar";
 export default function App() {
 	const [todoId, setTodoId] = useState(null);
@@ -24,8 +19,6 @@ export default function App() {
 		setLinkTodo(todo);
 	};
 	const fuDeleteTodo = (e) => {
-		console.log(e + " app");
-
 		setDeleteTodo(e);
 		setTimeout(() => {
 			setTodoId(null);
