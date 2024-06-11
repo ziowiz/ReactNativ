@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, StatusBar, Keyboard } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { MainScreen } from "./src/screen/MainScreen";
@@ -6,6 +6,7 @@ import { TodoScreen } from "./src/screen/TodoScreen";
 import { Navbar } from "./src/Navbar";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
 	const [isReady, setIsReady] = useState(false);
@@ -14,23 +15,47 @@ export default function App() {
 	const [idNextWindow, setIdNextWindow] = useState(null);
 	const [todoNextWindow, setTodoNextWindow] = useState(null);
 
-	const loadFonts = async () => {
-		await Font.loadAsync({
-			"Roboto-Bold": require("./assets/font/Roboto-Bold.ttf"),
-			"Roboto-Regular": require("./assets/font/Roboto-Regular.ttf"),
-			"Roboto-Medium": require("./assets/font/Roboto-Medium.ttf"),
-		});
-	};
+	// Загрузка шрифтов и данных из AsyncStorage
+	useEffect(() => {
+		const loadResourcesAndDataAsync = async () => {
+			try {
+				await Font.loadAsync({
+					"Roboto-Bold": require("./assets/font/Roboto-Bold.ttf"),
+					"Roboto-Regular": require("./assets/font/Roboto-Regular.ttf"),
+					"Roboto-Medium": require("./assets/font/Roboto-Medium.ttf"),
+				});
 
-	if (!isReady) {
-		return (
-			<AppLoading
-				startAsync={loadFonts}
-				onFinish={() => setIsReady(true)}
-				onError={(error) => console.log("error", error)}
-			/>
-		);
-	}
+				const savedTodo = await AsyncStorage.getItem("linkTodo");
+				if (savedTodo !== null) {
+					setLinkTodo(JSON.parse(savedTodo));
+				}
+			} catch (e) {
+				console.warn(e);
+			} finally {
+				setIsReady(true);
+				SplashScreen.hideAsync();
+			}
+		};
+
+		loadResourcesAndDataAsync();
+	}, []);
+
+	// Сохранение данных в AsyncStorage при изменении linkTodo
+	useEffect(() => {
+		if (isReady) {
+			const saveTodo = async () => {
+				try {
+					await AsyncStorage.setItem("linkTodo", JSON.stringify(linkTodo));
+					console.log("В локал сохранено");
+				} catch (error) {
+					console.error("Ошибка сохранения в локале - ", error);
+				}
+			};
+
+			saveTodo();
+		}
+	}, [linkTodo, isReady]);
+
 	const FunctionAddTodo = (text) => {
 		if (text) {
 			const newTodo = {
@@ -40,6 +65,7 @@ export default function App() {
 			};
 			setLinkTodo([...linkTodo, newTodo]);
 			setError("");
+
 			Keyboard.dismiss();
 		} else {
 			setError("Введите задачу");
@@ -66,9 +92,7 @@ export default function App() {
 			)
 		);
 	};
-	const sendMessage = (id, todo) => {
-		props.sendMessage(id, todo);
-	};
+
 	const fuDeleteTodo = (id) => {
 		setLinkTodo(linkTodo.filter((linkTodo) => linkTodo.id !== id));
 	};
