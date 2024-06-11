@@ -25,5 +25,6 @@ const styles = StyleSheet.create({
 		textShadowColor: "#00ff00",
 		textShadowOffset: { width: 2, height: 2 },
 		textShadowRadius: 4,
+		fontFamily: "Roboto-Bold",
 	},
 });

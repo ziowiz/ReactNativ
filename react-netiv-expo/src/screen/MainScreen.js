@@ -72,12 +72,14 @@ export const MainScreen = (props) => {
 	return (
 		<View style={styles.container}>
 			<Input
+				style={styles.Input}
 				addTodo={addTodo}
 				label="Добавить новую задачу:"
 				placeholder="Добавить..."
 				error={error}
 			/>
 			<TodoList
+				style={styles.Input}
 				sendMessage={sendMessage}
 				todo={todo}
 				setTodo={setTodo}
@@ -111,8 +113,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: color.darkGrey,
 	},
-	safeArea: {
+	Input: {
 		flex: 1,
-		backgroundColor: "#F5FCFF",
+		flexDirection: "column",
+		alignItems: "center",
+		marginBottom: 10,
+		paddingHorizontal: 10,
 	},
 });

@@ -15,9 +15,9 @@ export const Input = (props) => {
 		setInputValue(""); // Очистка поля ввода после добавления
 	};
 	return (
-		<View style={styles.container2}>
+		<View style={styles.container}>
 			<Text style={styles.label}>{props.label}</Text>
-			<View style={styles.container3}>
+			<View style={styles.container2}>
 				<TextInput
 					onChangeText={(text) => setInputValue(text)}
 					style={styles.input}
@@ -34,14 +34,20 @@ export const Input = (props) => {
 					<Text style={styles.buttonText}>Добавить</Text>
 				</TouchableOpacity>
 			</View>
-			{props.error ? <text style={styles.error}>{props.error}</text> : null}
+			{props.error ? <Text style={styles.error}>{props.error}</Text> : null}
 		</View>
 	);
 };
 const styles = StyleSheet.create({
+	container: {
+		height: 150,
+		flexDirection: "column",
+		alignItems: "center",
+		paddingHorizontal: 10,
+	},
 	error: {
 		marginTop: 10,
-		fontSize: 20,
+		fontSize: 18,
 		fontWeight: "bold",
 		color: "#c4c700",
 		marginVertical: 10,
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "#013801",
-		borderColor: "#e0ffd6",
+		borderColor: "#113306",
 		borderWidth: 1,
 		borderRadius: 8,
 		elevation: 2,
@@ -64,14 +70,8 @@ const styles = StyleSheet.create({
 		textShadowColor: "#3cb415",
 		textShadowRadius: 1,
 	},
+
 	container2: {
-		flexDirection: "colum",
-		justifyContent: "space-between",
-		alignItems: "center",
-		marginBottom: 10,
-		paddingHorizontal: 10,
-	},
-	container3: {
 		width: "100%",
 		marginTop: 15,
 		flexDirection: "row",

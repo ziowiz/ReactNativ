@@ -5,6 +5,14 @@ import {
 	TouchableOpacity,
 	FlatList,
 	Image,
+	TouchableWithoutFeedback,
+	KeyboardAvoidingView,
+	Platform,
+	Keyboard,
+	Modal,
+	TextInput,
+	Alert,
+	ScrollView,
 } from "react-native";
 
 export const TodoList = (props) => {
@@ -18,145 +26,160 @@ export const TodoList = (props) => {
 
 	const renderList = ({ item }) => {
 		return (
-			<View
-				key={item.id}
-				style={styles.listContainer2}
-			>
-				<TouchableOpacity onPress={() => props.sendMessage(item.id, item.todo)}>
-					<Text style={item.done ? styles.textDone : styles.text}>
-						{item.todo}
-					</Text>
-				</TouchableOpacity>
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+				<View
+					key={item.id}
+					style={styles.todo}
+				>
+					<View style={styles.list}>
+						<TouchableOpacity
+							onPress={() => props.sendMessage(item.id, item.todo)}
+						>
+							<Text style={item.done ? styles.textDone : styles.text}>
+								{item.todo}
+							</Text>
+						</TouchableOpacity>
 
-				<View style={styles.listContainer3}>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={() => handleDone(item.id)}
-					>
-						<Text style={styles.buttonText}>
-							{!item.done ? "Готово" : "Вернуть"}
-						</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={() => handleDelete(item.id)}
-					>
-						<Text style={styles.buttonText2}>Удалить</Text>
-					</TouchableOpacity>
+						<View style={styles.vievButton}>
+							<TouchableOpacity
+								style={styles.button}
+								onPress={() => handleDone(item.id)}
+							>
+								<Text style={styles.buttonText}>
+									{!item.done ? "Готово" : "Вернуть"}
+								</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={styles.button}
+								onPress={() => handleDelete(item.id)}
+							>
+								<Text style={styles.buttonText2}>Удалить</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
 				</View>
-			</View>
+			</TouchableWithoutFeedback>
 		);
 	};
 
 	return (
-		<View style={styles.listContainer}>
-			{props.todo && props.todo.length > 0 ? (
-				<FlatList
-					data={props.todo}
-					renderItem={renderList}
-					keyExtractor={(item) => item.id.toString()}
-					style={styles.containerImg}
-				/>
-			) : (
-				<View style={styles.listContainer}>
-					<Text style={styles.text2}>Котику грустно. Добавьте задачу.</Text>
-					<Image
-						source={require("./img/cat.png")}
-						style={styles.image}
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+			<View style={styles.listContainer}>
+				{props.todo && props.todo.length > 0 ? (
+					<FlatList
+						data={props.todo}
+						renderItem={renderList}
+						keyExtractor={(item) => item.id.toString()}
 					/>
-				</View>
-			)}
-		</View>
+				) : (
+					<KeyboardAvoidingView
+						behavior={Platform.OS === "ios" ? "padding" : "height"}
+						style={{ flex: 1 }}
+					>
+						<View style={styles.emptyContainer}>
+							<Text style={styles.text2}>Котику грустно. Добавьте задачу.</Text>
+							<Image
+								source={require("./img/cat.png")}
+								style={styles.image}
+							/>
+						</View>
+					</KeyboardAvoidingView>
+				)}
+			</View>
+		</TouchableWithoutFeedback>
 	);
 };
-const styles = StyleSheet.create({
-	containerImg: {
-		flex: 1,
 
-		padding: 20,
-	},
-	listContainer: {
-		flex: 1,
-		flexDirection: "column",
+const styles = StyleSheet.create({
+	list: {
+		flexDirection: "row",
 		width: "100%",
-		borderBottomColor: "#00ff00",
-		borderBottomWidth: 1,
-		marginTop: 10,
-	},
-	listContainer2: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "space-between",
-		width: "100%", // Обеспечивает использование всей ширины контейнера
-	},
-	listContainer3: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "flex-end", // Кнопки будут располагаться справа
-	},
-	image: {
-		marginH: "auto",
-		marginTop: "auto",
-		width: 400,
-		height: 500,
 	},
 	text: {
 		color: "#ffffff",
 		fontSize: 18,
-		paddingLeft: 15,
+		paddingLeft: 10,
 		paddingBottom: 10,
-		width: "100%",
+		width: 220,
 		textShadowColor: "#00ff00",
 		textShadowOffset: { width: 1, height: 1 },
 		textShadowRadius: 3,
-	},
-	text2: {
-		color: "#ffffff",
-		fontSize: 16,
-
-		width: "100%",
-		textShadowColor: "#00ff00",
-		textShadowOffset: { width: 1, height: 1 },
-		textShadowRadius: 3,
-		textAlign: "center",
 	},
 	textDone: {
 		color: "#504f4f",
 		fontStyle: "italic",
-		fontSize: 18,
-		paddingLeft: 25,
+		fontSize: 16,
+		paddingLeft: 15,
 		textDecorationLine: "line-through",
 		paddingBottom: 10,
-		width: "100%",
 		textShadowColor: "#153515",
 		textShadowOffset: { width: 1, height: 1 },
 		textShadowRadius: 3,
 	},
+	vievButton: {
+		flexDirection: "row",
+		alignItems: "center",
+		marginLeft: "auto",
+	},
 	button: {
-		width: 75, // Чтобы кнопки имели размер по содержимому
+		width: 75,
 		height: 30,
-		marginRight: 10,
+		marginRight: 5,
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "#013801",
-		borderColor: "#072b27",
+		borderColor: "#022407",
 		borderWidth: 1,
 		borderRadius: 4,
 		elevation: 2,
-		paddingHorizontal: 10, // Добавим горизонтальный паддинг для кнопок
 	},
+
 	buttonText: {
 		color: "#e0ffd1",
 		fontSize: 13,
-		fontWeight: "600",
-		textShadowColor: "#e0ffd6",
+		fontWeight: "400",
+		textShadowColor: "#297a0e",
 		textShadowRadius: 1,
 	},
 	buttonText2: {
 		color: "#ddbc04",
 		fontSize: 13,
-		fontWeight: "600",
+		fontWeight: "400",
 		textShadowColor: "#e2ffd6",
 		textShadowRadius: 1,
+	},
+
+	listContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		borderBottomColor: "#00ff00",
+		borderBottomWidth: 1,
+		marginTop: 10,
+	},
+
+	emptyContainer: {
+		marginTop: 80,
+		height: 400,
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "star",
+	},
+
+	image: {
+		width: 300,
+		height: 400,
+		resizeMode: "contain",
+	},
+
+	text2: {
+		color: "#ffffff",
+		fontSize: 16,
+		textAlign: "center",
+		width: "100%",
+		textShadowColor: "#00ff00",
+		textShadowOffset: { width: 1, height: 1 },
+		textShadowRadius: 3,
+		textAlign: "center",
 	},
 });
