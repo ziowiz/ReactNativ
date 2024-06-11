@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, StatusBar } from "react-native";
-import {
-	SafeAreaProvider,
-	SafeAreaView,
-	View,
-} from "react-native-safe-area-context";
+import { StyleSheet, StatusBar, Keyboard } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { MainScreen } from "./src/screen/MainScreen";
 import { TodoScreen } from "./src/screen/TodoScreen";
 import { Navbar } from "./src/Navbar";
@@ -13,11 +9,11 @@ import AppLoading from "expo-app-loading";
 
 export default function App() {
 	const [isReady, setIsReady] = useState(false);
-	const [todoId, setTodoId] = useState(null);
-	const [select, setSelect] = useState(null);
-	const [selectId, setSelectId] = useState(null);
-	const [deleteTodo, setDeleteTodo] = useState(null);
-	const [linkTodo, setLinkTodo] = useState(null);
+	const [linkTodo, setLinkTodo] = useState([]);
+	const [error, setError] = useState("");
+	const [idNextWindow, setIdNextWindow] = useState(null);
+	const [todoNextWindow, setTodoNextWindow] = useState(null);
+
 	const loadFonts = async () => {
 		await Font.loadAsync({
 			"Roboto-Bold": require("./assets/font/Roboto-Bold.ttf"),
@@ -35,57 +31,76 @@ export default function App() {
 			/>
 		);
 	}
+	const FunctionAddTodo = (text) => {
+		if (text) {
+			const newTodo = {
+				id: Date.now().toString(),
+				todo: text,
+				done: false,
+			};
+			setLinkTodo([...linkTodo, newTodo]);
+			setError("");
+			Keyboard.dismiss();
+		} else {
+			setError("Введите задачу");
+		}
+	};
+
+	const openNextWindow = (id, todo) => {
+		setIdNextWindow(id);
+		setTodoNextWindow(todo);
+	};
 
 	const fuRename = (idKey, newTodo) => {
-		console.log(idKey, newTodo);
 		setLinkTodo(
-			linkTodo.map((todo) =>
-				idKey === todo.id ? { ...todo, todo: newTodo } : todo
+			linkTodo.map((linkTodo) =>
+				idKey === linkTodo.id ? { ...linkTodo, todo: newTodo } : linkTodo
 			)
 		);
 	};
-	const receiveMessage = (id, todo) => {
-		setTodoId(id);
-		setSelectId(id);
-		setSelect(todo);
+
+	const fuMarkDone = (id) => {
+		setLinkTodo(
+			linkTodo.map((linkTodo) =>
+				linkTodo.id === id ? { ...linkTodo, done: !linkTodo.done } : linkTodo
+			)
+		);
 	};
-	const fuLinkTodo = (todo) => {
-		setLinkTodo(todo);
+	const sendMessage = (id, todo) => {
+		props.sendMessage(id, todo);
 	};
-	const fuDeleteTodo = (e) => {
-		setDeleteTodo(e);
-		setTimeout(() => {
-			setTodoId(null);
-		}, 2);
+	const fuDeleteTodo = (id) => {
+		setLinkTodo(linkTodo.filter((linkTodo) => linkTodo.id !== id));
 	};
 	return (
 		<SafeAreaProvider>
 			<SafeAreaView style={styles.safeArea}>
 				<StatusBar barStyle="white-content" />
-				{/* <View> */}
+
 				<Navbar
 					title="Список дел на сегодня:"
 					style={styles.navbar}
 				/>
-				{todoId ? (
+				{idNextWindow ? (
 					<TodoScreen
 						style={styles.todoScreen}
-						fuDeleteTodo={fuDeleteTodo}
-						select={select}
-						id={selectId}
-						back={() => setTodoId(null)}
+						deleteTodo={fuDeleteTodo}
+						todoNextWindow={todoNextWindow}
+						idNextWindow={idNextWindow}
+						back={() => setIdNextWindow(null)}
 						fuRename2={fuRename}
 					/>
 				) : (
 					<MainScreen
 						style={styles.mainScreen}
-						fuLinkTodo={fuLinkTodo}
+						addNewTodo={FunctionAddTodo}
 						linkTodo={linkTodo}
-						sendMessage={receiveMessage}
-						deleteTodo={deleteTodo}
+						markDone={fuMarkDone}
+						deleteTodo={fuDeleteTodo}
+						error={error}
+						openNextWindow={openNextWindow}
 					/>
 				)}
-				{/* </View> */}
 			</SafeAreaView>
 		</SafeAreaProvider>
 	);

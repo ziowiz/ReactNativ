@@ -17,13 +17,12 @@ export const ModalView = ({ visible, onCancel, select, idKey, fuRename }) => {
 	const [newTodo, setNewTodo] = useState(select);
 
 	const [inputHeight, setInputHeight] = useState(250);
-
 	const updateInputHeight = () => {
 		const { width, height } = Dimensions.get("window");
 		if (height > width) {
 			setInputHeight(250); // Портретный режим
 		} else {
-			setInputHeight(140); // Ландшафтный режим
+			setInputHeight(130); // Ландшафтный режим
 		}
 	};
 

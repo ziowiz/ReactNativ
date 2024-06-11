@@ -5,19 +5,20 @@ import { ModalView } from "./Modal";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-export const TodoScreen = ({ back, id, select, fuDeleteTodo, fuRename2 }) => {
+export const TodoScreen = ({
+	back,
+	idNextWindow,
+	todoNextWindow,
+	deleteTodo,
+	fuRename2,
+}) => {
 	const [modal, setModal] = useState(false);
 	const handleRename = (idKey, newTodo) => {
-		console.log(idKey + " idKey in TodoScreen");
-		console.log(newTodo + " newTodo in TodoScreen");
 		fuRename2(idKey, newTodo);
 		setModal(false);
-		setTimeout(() => {
-			back();
-		}, 0.5);
+		back();
 	};
-	const deleteTodo = (id) => {
-		console.log("Удаление произошло");
+	const fuDeleteTodo = (idNextWindow) => {
 		Alert.alert(
 			"Подтвердите удаление",
 			"Вы уверены, что хотите удалить эту задачу?",
@@ -29,7 +30,8 @@ export const TodoScreen = ({ back, id, select, fuDeleteTodo, fuRename2 }) => {
 				{
 					text: "OK",
 					onPress: () => {
-						fuDeleteTodo(id);
+						deleteTodo(idNextWindow);
+						back();
 					},
 				},
 			],
@@ -41,14 +43,14 @@ export const TodoScreen = ({ back, id, select, fuDeleteTodo, fuRename2 }) => {
 			<ModalView
 				visible={modal}
 				onCancel={() => setModal(false)}
-				select={select}
-				idKey={id}
+				select={todoNextWindow}
+				idKey={idNextWindow}
 				fuRename={handleRename}
 			>
 				{" "}
 			</ModalView>
 
-			<Text style={styles.label}>{select}</Text>
+			<Text style={styles.label}>{todoNextWindow}</Text>
 
 			<View style={styles.container3}>
 				<TouchableOpacity
@@ -74,7 +76,7 @@ export const TodoScreen = ({ back, id, select, fuDeleteTodo, fuRename2 }) => {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.button}
-					onPress={() => deleteTodo(id)}
+					onPress={() => fuDeleteTodo(idNextWindow)}
 				>
 					<MaterialCommunityIcons
 						name="delete-alert-outline"

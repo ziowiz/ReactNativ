@@ -7,34 +7,34 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from "react-native";
-export const Input = (props) => {
+export const Input = ({ addNewTodo, error, placeholder, label }) => {
 	const [inputValue, setInputValue] = useState("");
 
-	const handleAddTodo = () => {
-		props.addTodo(inputValue);
-		setInputValue(""); // Очистка поля ввода после добавления
+	const FuAddNewTodo = () => {
+		addNewTodo(inputValue);
+		setInputValue("");
 	};
 	return (
 		<View style={styles.container}>
-			<Text style={styles.label}>{props.label}</Text>
+			<Text style={styles.label}>{label}</Text>
 			<View style={styles.container2}>
 				<TextInput
 					onChangeText={(text) => setInputValue(text)}
 					style={styles.input}
 					value={inputValue}
-					placeholder={props.placeholder}
+					placeholder={placeholder}
 					placeholderTextColor="#5f5f5f"
 					autoCorrect={false}
 					cursorColor="#00ff00"
 				/>
 				<TouchableOpacity
 					style={styles.button}
-					onPress={handleAddTodo}
+					onPress={FuAddNewTodo}
 				>
 					<Text style={styles.buttonText}>Добавить</Text>
 				</TouchableOpacity>
 			</View>
-			{props.error ? <Text style={styles.error}>{props.error}</Text> : null}
+			{error ? <Text style={styles.error}>{error}</Text> : null}
 		</View>
 	);
 };

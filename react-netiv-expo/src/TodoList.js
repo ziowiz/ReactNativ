@@ -13,13 +13,14 @@ import {
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-export const TodoList = (props) => {
-	const handleDone = (id) => {
-		props.markDone(id);
-	};
-
+export const TodoList = ({
+	linkTodo,
+	markDone,
+	deleteTodo,
+	openNextWindow,
+}) => {
 	const handleDelete = (id) => {
-		props.deleteTodo(id);
+		deleteTodo(id);
 	};
 
 	const renderList = ({ item }) => {
@@ -31,7 +32,7 @@ export const TodoList = (props) => {
 				>
 					<View style={styles.list}>
 						<TouchableOpacity
-							onPress={() => props.sendMessage(item.id, item.todo)}
+							onPress={() => openNextWindow(item.id, item.todo)}
 						>
 							<Text style={item.done ? styles.textDone : styles.text}>
 								{item.todo}
@@ -41,7 +42,7 @@ export const TodoList = (props) => {
 						<View style={styles.vievButton}>
 							<TouchableOpacity
 								style={styles.button}
-								onPress={() => handleDone(item.id)}
+								onPress={() => markDone(item.id)}
 							>
 								{!item.done ? (
 									<MaterialIcons
@@ -75,9 +76,9 @@ export const TodoList = (props) => {
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 			<View style={styles.listContainer}>
-				{props.todo && props.todo.length > 0 ? (
+				{linkTodo && linkTodo.length > 0 ? (
 					<FlatList
-						data={props.todo}
+						data={linkTodo}
 						renderItem={renderList}
 						keyExtractor={(item) => item.id.toString()}
 					/>

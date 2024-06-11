@@ -2,89 +2,29 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Keyboard, Image } from "react-native";
 import { Input } from "../Input";
 import { TodoList } from "../TodoList";
-export const MainScreen = (props) => {
-	const [error, setError] = useState("");
-
-	const [todo, setTodo] = useState(
-		props.linkTodo
-			? props.linkTodo
-			: [
-					{
-						id: "1717711675878",
-						todo: "Пидорасы везде",
-						done: false,
-					},
-					{
-						id: "1717711675879",
-						todo: "Я воняю говной",
-						done: true,
-					},
-					{
-						id: "1717711675880",
-						todo: "Хочу на море и пиво",
-						done: false,
-					},
-					{
-						id: "1717711675881",
-						todo: "Вот бы соснуть хуй",
-						done: false,
-					},
-			  ]
-	);
-
-	useEffect(() => {
-		if (props.deleteTodo) {
-			deleteTodo(props.deleteTodo);
-		}
-	}, [props.deleteTodo]);
-	useEffect(() => {
-		props.fuLinkTodo(todo);
-	}, [todo]);
-	const addTodo = (text) => {
-		if (text) {
-			const newTodo = {
-				id: Date.now().toString(),
-				todo: text,
-				done: false,
-			};
-			setTodo([...todo, newTodo]);
-			setError("");
-			Keyboard.dismiss();
-		} else {
-			setError("Введите задачу");
-		}
-	};
-
-	const deleteTodo = (id) => {
-		setTodo(todo.filter((todo) => todo.id !== id));
-	};
-
-	const markDone = (id) => {
-		setTodo(
-			todo.map((todo) =>
-				todo.id === id ? { ...todo, done: !todo.done } : todo
-			)
-		);
-	};
-	const sendMessage = (id, todo) => {
-		props.sendMessage(id, todo);
-	};
+export const MainScreen = ({
+	addNewTodo,
+	error,
+	linkTodo,
+	deleteTodo,
+	markDone,
+	openNextWindow,
+}) => {
 	return (
 		<View style={styles.container}>
 			<Input
 				style={styles.Input}
-				addTodo={addTodo}
+				addNewTodo={addNewTodo}
 				label="Добавить новую задачу:"
 				placeholder="Добавить..."
 				error={error}
 			/>
 			<TodoList
 				style={styles.Input}
-				sendMessage={sendMessage}
-				todo={todo}
-				setTodo={setTodo}
+				linkTodo={linkTodo}
 				deleteTodo={deleteTodo}
 				markDone={markDone}
+				openNextWindow={openNextWindow}
 			/>
 		</View>
 	);
