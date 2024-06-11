@@ -61,10 +61,10 @@ export default function App() {
 	return (
 		<SafeAreaProvider>
 			<SafeAreaView style={styles.safeArea}>
-				<StatusBar barStyle="dark-content" />
+				<StatusBar barStyle="white-content" />
 				{/* <View> */}
 				<Navbar
-					title="Список пидорасов"
+					title="Список дел на сегодня:"
 					style={styles.navbar}
 				/>
 				{todoId ? (

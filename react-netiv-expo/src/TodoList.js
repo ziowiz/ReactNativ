@@ -9,11 +9,9 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	Keyboard,
-	Modal,
-	TextInput,
-	Alert,
-	ScrollView,
 } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export const TodoList = (props) => {
 	const handleDone = (id) => {
@@ -45,15 +43,27 @@ export const TodoList = (props) => {
 								style={styles.button}
 								onPress={() => handleDone(item.id)}
 							>
-								<Text style={styles.buttonText}>
-									{!item.done ? "Готово" : "Вернуть"}
-								</Text>
+								{!item.done ? (
+									<MaterialIcons
+										name="done-all"
+										size={24}
+										style={styles.buttonText}
+									/>
+								) : (
+									<MaterialIcons
+										name="remove-done"
+										style={styles.buttonText}
+									/>
+								)}
 							</TouchableOpacity>
 							<TouchableOpacity
 								style={styles.button}
 								onPress={() => handleDelete(item.id)}
 							>
-								<Text style={styles.buttonText2}>Удалить</Text>
+								<AntDesign
+									name="delete"
+									style={styles.buttonText}
+								/>
 							</TouchableOpacity>
 						</View>
 					</View>
@@ -136,7 +146,7 @@ const styles = StyleSheet.create({
 
 	buttonText: {
 		color: "#e0ffd1",
-		fontSize: 13,
+		fontSize: 20,
 		fontWeight: "400",
 		textShadowColor: "#297a0e",
 		textShadowRadius: 1,

@@ -2,6 +2,9 @@ import React from "react";
 import { StyleSheet, View, Text, Alert, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { ModalView } from "./Modal";
+import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 export const TodoScreen = ({ back, id, select, fuDeleteTodo, fuRename2 }) => {
 	const [modal, setModal] = useState(false);
 	const handleRename = (idKey, newTodo) => {
@@ -52,6 +55,10 @@ export const TodoScreen = ({ back, id, select, fuDeleteTodo, fuRename2 }) => {
 					style={styles.button}
 					onPress={() => back()}
 				>
+					<Ionicons
+						name="return-down-back"
+						style={styles.buttonText}
+					/>
 					<Text style={styles.buttonText}>Назад</Text>
 				</TouchableOpacity>
 
@@ -59,12 +66,20 @@ export const TodoScreen = ({ back, id, select, fuDeleteTodo, fuRename2 }) => {
 					style={styles.button}
 					onPress={() => setModal(true)}
 				>
-					<Text style={styles.buttonText}>Редакт</Text>
+					<FontAwesome5
+						name="edit"
+						style={styles.buttonText}
+					/>
+					<Text style={styles.buttonText}>Редактировать</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.button}
 					onPress={() => deleteTodo(id)}
 				>
+					<MaterialCommunityIcons
+						name="delete-alert-outline"
+						style={styles.buttonText}
+					/>
 					<Text style={styles.buttonText}>Удалить</Text>
 				</TouchableOpacity>
 			</View>
@@ -80,8 +95,9 @@ const styles = StyleSheet.create({
 		marginVertical: 10,
 	},
 	button: {
-		width: "23%",
+		minWidth: 100,
 		height: 50,
+		paddingHorizontal: 10,
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "#013801",
