@@ -2,12 +2,14 @@
 export const todoReducer = (state, action) => {
 	switch (action.type) {
 		case "ADD_TODO":
+			const newTodo = {
+				id: Date.now().toString(),
+				todo: action.payload.todo,
+				done: false,
+			};
 			return {
 				...state,
-				linkTodo: [
-					...state.linkTodo,
-					{ id: Date.now().toString(), todo: action.payload.text, done: false },
-				],
+				linkTodo: [...state.linkTodo, newTodo],
 			};
 
 		case "DELETE_TODO":
@@ -21,8 +23,8 @@ export const todoReducer = (state, action) => {
 			return {
 				...state,
 				linkTodo: state.linkTodo.map((todo) =>
-					action.payload.idKey === todo.id
-						? { ...todo, todo: action.payload.newTodo }
+					action.payload.id === todo.id
+						? { ...todo, todo: action.payload.todo }
 						: todo
 				),
 			};

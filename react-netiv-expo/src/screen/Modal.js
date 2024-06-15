@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
 	View,
 	Text,
@@ -12,9 +12,13 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { TodoContext } from "../context/todo/TodoContext";
+import { ScreenContext } from "../context/screen/screenContext";
 
-export const ModalView = ({ visible, onCancel, select, idKey, fuRename }) => {
+export const ModalView = ({ visible, onCancel, select, idKey, back }) => {
 	const [newTodo, setNewTodo] = useState(select);
+	const context = useContext(TodoContext);
+	const context_2 = useContext(ScreenContext);
 
 	const [inputHeight, setInputHeight] = useState(250);
 	const updateInputHeight = () => {
@@ -34,6 +38,16 @@ export const ModalView = ({ visible, onCancel, select, idKey, fuRename }) => {
 		);
 		return () => subscription?.remove(); // Удаляем слушатель при размонтировании
 	}, [Dimensions.get("window")]);
+	const fuRename = () => {
+		console.log(idKey, newTodo);
+		context.dispatch({
+			type: "RENAME_TODO",
+			payload: { id: idKey, todo: newTodo },
+		});
+		console.log("back start");
+		context_2.dispatch({ type: "BACK_WINDOW", payload: null });
+	};
+
 	return (
 		<Modal
 			visible={visible}
@@ -64,7 +78,7 @@ export const ModalView = ({ visible, onCancel, select, idKey, fuRename }) => {
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={styles.button}
-							onPress={() => fuRename(idKey, newTodo)}
+							onPress={fuRename}
 						>
 							<FontAwesome
 								name="save"

@@ -1,19 +1,31 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useContext } from "react";
+import { TodoContext } from "./context/todo/TodoContext"; // Импортируем контекст TodoContext.
 import {
+	Keyboard,
 	View,
 	Text,
 	TextInput,
 	StyleSheet,
 	TouchableOpacity,
 } from "react-native";
-export const Input = ({ addNewTodo, error, placeholder, label }) => {
-	const [inputValue, setInputValue] = useState("");
 
-	const FuAddNewTodo = () => {
-		addNewTodo(inputValue);
-		setInputValue("");
+export const Input = ({ placeholder, label }) => {
+	const [inputValue, setInputValue] = useState("");
+	const [error, setError] = useState("");
+	const context = useContext(TodoContext);
+
+	const FunctionAddTodo = () => {
+		if (inputValue) {
+			context.dispatch({ type: "ADD_TODO", payload: { todo: inputValue } }); // Обновление payload
+			console.log(context.linkTodo);
+			setError("");
+			setInputValue("");
+			Keyboard.dismiss();
+		} else {
+			setError("Введите задачу");
+		}
 	};
+
 	return (
 		<View style={styles.container}>
 			<Text style={styles.label}>{label}</Text>
@@ -29,7 +41,7 @@ export const Input = ({ addNewTodo, error, placeholder, label }) => {
 				/>
 				<TouchableOpacity
 					style={styles.button}
-					onPress={FuAddNewTodo}
+					onPress={FunctionAddTodo}
 				>
 					<Text style={styles.buttonText}>Добавить</Text>
 				</TouchableOpacity>

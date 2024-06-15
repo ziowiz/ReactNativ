@@ -9,14 +9,8 @@ export const TodoState = ({ children }) => {
 		linkTodo: [{ id: 111, todo: "state => initialState ", done: false }],
 	};
 
-	// Используем хук useReducer для управления состоянием.
-	// useReducer принимает редюсер (reducer) и начальное состояние (initialState).
-	// Возвращает текущее состояние (state) и функцию для отправки действий (dispatch).
 	const [state, dispatch] = useReducer(todoReducer, initialState);
 
-	// Возвращаем провайдер контекста TodoContext.
-	// Провайдер предоставляет значение (value), включающее текущий массив задач (state.linkTodo).
-	// Все дочерние компоненты (children) будут иметь доступ к этому контексту.
 	return (
 		<TodoContext.Provider
 			value={{ linkTodo: state.linkTodo, dispatch: dispatch }}

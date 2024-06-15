@@ -1,29 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Keyboard, Image } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import { Input } from "../Input";
 import { TodoList } from "../TodoList";
-export const MainScreen = ({
-	addNewTodo,
-	error,
-	linkTodo,
-	deleteTodo,
-	markDone,
-	openNextWindow,
-}) => {
+export const MainScreen = ({ openNextWindow }) => {
 	return (
 		<View style={styles.container}>
 			<Input
 				style={styles.Input}
-				addNewTodo={addNewTodo}
 				label="Добавить новую задачу:"
 				placeholder="Добавить..."
-				error={error}
 			/>
 			<TodoList
 				style={styles.Input}
-				linkTodo={linkTodo}
-				deleteTodo={deleteTodo}
-				markDone={markDone}
 				openNextWindow={openNextWindow}
 			/>
 		</View>

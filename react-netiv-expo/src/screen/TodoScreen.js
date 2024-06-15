@@ -1,20 +1,18 @@
 import React from "react";
 import { StyleSheet, View, Text, Alert, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { ModalView } from "./Modal";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-export const TodoScreen = ({
-	back,
-	idNextWindow,
-	todoNextWindow,
-	deleteTodo,
-	fuRename2,
-}) => {
+import { TodoContext } from "../context/todo/TodoContext";
+import { ScreenContext } from "../context/screen/screenContext";
+export const TodoScreen = ({ back, idNextWindow, todoNextWindow }) => {
+	const context = useContext(TodoContext);
+	const context_2 = useContext(ScreenContext);
 	const [modal, setModal] = useState(false);
 	const handleRename = (idKey, newTodo) => {
-		fuRename2(idKey, newTodo);
+		context.dispatch({ type: "RENAME_TODO", payload: { idKey, newTodo } });
 		setModal(false);
 		back();
 	};
@@ -30,7 +28,10 @@ export const TodoScreen = ({
 				{
 					text: "OK",
 					onPress: () => {
-						deleteTodo(idNextWindow);
+						context.dispatch({
+							type: "DELETE_TODO",
+							payload: { id: idNextWindow },
+						});
 						back();
 					},
 				},
@@ -45,7 +46,7 @@ export const TodoScreen = ({
 				onCancel={() => setModal(false)}
 				select={todoNextWindow}
 				idKey={idNextWindow}
-				fuRename={handleRename}
+				back={back}
 			>
 				{" "}
 			</ModalView>
@@ -55,7 +56,9 @@ export const TodoScreen = ({
 			<View style={styles.container3}>
 				<TouchableOpacity
 					style={styles.button}
-					onPress={() => back()}
+					onPress={() =>
+						context_2.dispatch({ type: "BACK_WINDOW", payload: null })
+					}
 				>
 					<Ionicons
 						name="return-down-back"

@@ -65,29 +65,11 @@ export const MainLayout = () => {
 	};
 
 	const backWindow = () => {
+		console.log("back dispatch start");
 		context_2.dispatch({ type: "BACK_WINDOW", payload: null });
 	};
-	const FunctionAddTodo = (text) => {
-		if (text) {
-			context.dispatch({ type: "ADD_TODO", payload: { text } });
-			setError("");
-			Keyboard.dismiss();
-		} else {
-			setError("Введите задачу");
-		}
-	};
 
-	const fuRename = (idKey, newTodo) => {
-		context.dispatch({ type: "RENAME_TODO", payload: { idKey, newTodo } });
-	};
-
-	const fuMarkDone = (id) => {
-		context.dispatch({ type: "MARK_TODO", payload: { id } });
-	};
-
-	const fuDeleteTodo = (id) => {
-		context.dispatch({ type: "DELETE_TODO", payload: { id } });
-	};
+	// };
 
 	return (
 		<SafeAreaProvider>
@@ -101,20 +83,14 @@ export const MainLayout = () => {
 					{context_2.state.id ? (
 						<TodoScreen
 							style={styles.todoScreen}
-							deleteTodo={fuDeleteTodo}
 							todoNextWindow={context_2.state.todo}
 							idNextWindow={context_2.state.id}
 							back={backWindow}
-							fuRename2={fuRename}
 						/>
 					) : (
 						<MainScreen
 							style={styles.mainScreen}
-							addNewTodo={FunctionAddTodo}
 							linkTodo={context.linkTodo}
-							markDone={fuMarkDone}
-							deleteTodo={fuDeleteTodo}
-							error={error}
 							openNextWindow={nextWindow}
 						/>
 					)}

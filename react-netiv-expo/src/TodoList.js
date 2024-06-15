@@ -12,16 +12,11 @@ import {
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { TodoContext } from "./context/todo/TodoContext"; // Импортируем контекст TodoContext.
+import React, { useContext } from "react";
 
-export const TodoList = ({
-	linkTodo,
-	markDone,
-	deleteTodo,
-	openNextWindow,
-}) => {
-	const handleDelete = (id) => {
-		deleteTodo(id);
-	};
+export const TodoList = ({ openNextWindow }) => {
+	const context = useContext(TodoContext);
 
 	const renderList = ({ item }) => {
 		return (
@@ -42,7 +37,12 @@ export const TodoList = ({
 						<View style={styles.vievButton}>
 							<TouchableOpacity
 								style={styles.button}
-								onPress={() => markDone(item.id)}
+								onPress={() =>
+									context.dispatch({
+										type: "MARK_TODO",
+										payload: { id: item.id },
+									})
+								}
 							>
 								{!item.done ? (
 									<MaterialIcons
@@ -59,7 +59,12 @@ export const TodoList = ({
 							</TouchableOpacity>
 							<TouchableOpacity
 								style={styles.button}
-								onPress={() => handleDelete(item.id)}
+								onPress={() =>
+									context.dispatch({
+										type: "DELETE_TODO",
+										payload: { id: item.id },
+									})
+								}
 							>
 								<AntDesign
 									name="delete"
@@ -76,9 +81,9 @@ export const TodoList = ({
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 			<View style={styles.listContainer}>
-				{linkTodo && linkTodo.length > 0 ? (
+				{context.linkTodo && context.linkTodo.length > 0 ? (
 					<FlatList
-						data={linkTodo}
+						data={context.linkTodo}
 						renderItem={renderList}
 						keyExtractor={(item) => item.id.toString()}
 					/>
