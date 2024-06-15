@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 	text: {
 		color: "#ffffff",
 		textAlign: "center",
-		fontSize: 25,
+		fontSize: 24,
 		textShadowColor: "#00ff00",
 		textShadowOffset: { width: 2, height: 2 },
 		textShadowRadius: 4,
