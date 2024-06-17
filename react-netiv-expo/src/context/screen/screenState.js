@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer } from "react";
 import { ScreenContext } from "./screenContext"; // Убедись, что путь правильный
 import { screenReducer } from "./screenReducer";
 

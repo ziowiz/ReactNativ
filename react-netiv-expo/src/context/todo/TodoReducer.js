@@ -28,6 +28,11 @@ export const todoReducer = (state, action) => {
 						: todo
 				),
 			};
+		case "LOAD_TODOS":
+			return {
+				...state,
+				linkTodo: action.payload,
+			};
 		case "MARK_TODO":
 			return {
 				...state,
